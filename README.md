@@ -1,17 +1,54 @@
-# Sector / Сектор
+# Сектор — перенос Windows и клонирование SSD
 
-Windows SSD cloning utility by **by.mask21**. **Русский · English · 简体中文**.
+**Меняете SSD и хотите перенести на него уже настроенную Windows вместе с программами и файлами?** Для этого создан «Сектор» — приложение для Windows от **by.mask21**.
 
-[Русский](docs/README.ru.md) · [English](docs/README.en.md) · [简体中文](docs/README.zh-CN.md)
+Программа копирует поддерживаемую установку Windows на другой SSD, чтобы после переноса можно было проверить загрузку с нового накопителя без переустановки системы и приложений. Программы, настройки и файлы переносятся вместе с содержащим их томом; состав переносимых томов зависит от режима ниже.
 
-**Download:** open [Releases](../../releases), download `Sector-0.3.6-Windows-x64.zip`, and extract the entire archive. Start `Sector.exe` as administrator to clone, or use `Sector-Preview.exe` for the interface demo with simulated disks and device writing disabled.
+**[Скачать Сектор 0.3.6 для Windows x64](https://github.com/r888scx-lgtm/sector/releases/download/v0.3.6/Sector-0.3.6-Windows-x64.zip)** · [Страница выпуска](https://github.com/r888scx-lgtm/sector/releases/tag/v0.3.6)
 
-The language selector is at the top of the app. Your choice is saved and takes effect immediately.
+Распакуйте архив целиком и запустите **`Sector.exe` от имени администратора**. `Sector-Preview.exe` — отдельный предпросмотр на демонстрационных дисках, без записи на устройства.
 
-Sector can copy a running GPT/UEFI Windows installation using VSS, migrate a supported simple dynamic Windows volume to a basic GPT disk, or copy two offline non-system disks sector by sector. All copied data is read back and verified. The destination's existing contents are overwritten after explicit confirmation.
+## Что умеет программа
 
-**0.3.6 is an experimental release.** A completed Windows volume copy and verification have been confirmed on one computer; compatibility with other hardware and successful booting on every configuration are not guaranteed. Keep an independent backup of important data. See the language-specific instructions for supported layouts and limits.
+- **Переносить работающую Windows на другой SSD.** Для поддерживаемой GPT/UEFI-разметки используется VSS: Windows продолжает работать, а копия отражает состояние на момент снимка.
+- **Переносить данные томов целиком**, включая установленные на них приложения, настройки и пользовательские файлы.
+- **Клонировать два несистемных Offline-диска посекторно**, включая разделы, загрузочную область и пустые секторы.
+- **Переносить простую динамическую Windows из LDM в обычный GPT**, создавая на назначении новую разметку, EFI и привязку системного тома.
+- **Проверять всю записанную копию повторным чтением.** Для VSS используются SHA-256 блоков, сохранённые до записи; для обычного посекторного режима — побайтовое сравнение.
+- **Проверять VSS без записи на SSD** и снимать программный флаг «только чтение» у отдельного безопасно определённого назначения.
+- **Проверять направление переноса:** системный SSD нельзя выбрать назначением; перед перезаписью нужны серийный номер назначения и явное согласие.
 
-This repository distributes **compiled applications and documentation only**. First-party source code remains private. AlphaVSS components retain their Apache 2.0 license; see [third-party notices](THIRD-PARTY-NOTICES.txt).
+## Какие диски можно переносить
 
-Author: **by.mask21** · [Telegram channel](https://t.me/+2A9pJfPMffU2Zjg6). Voluntary support is available inside the app.
+| Режим | Что переносится | Основные условия |
+| --- | --- | --- |
+| Работающая Windows на обычном GPT | Поддерживаемые NTFS-тома, EFI и разметка | Windows и её EFI на одном SSD; назначение Offline |
+| Динамический GPT → обычный GPT | Один простой NTFS-том текущей Windows; новый EFI и MSR | EFI на том же SSD; без дополнительных пользовательских, составных и зеркальных томов |
+| Два несистемных Offline-диска | Полное содержимое диска посекторно | Оба диска Offline; обычная GPT или MBR |
+
+Назначение должно быть физически не меньше источника, а логические секторы должны совпадать: 512 или 4096 байт. Разделы автоматически не расширяются. RAID, виртуальные диски, меньшее назначение, MBR для работающей Windows и BitLocker в live-режиме не поддерживаются.
+
+## Как пользоваться
+
+1. Подключите новый SSD и переведите **только назначение** в Offline через «Управление дисками». Работающую Windows оставьте Online.
+2. Выберите источник слева и назначение справа, затем нажмите **«Проверить план»**.
+3. Нажмите **«Клонировать SSD»**, проверьте направление и подтвердите перезапись номером, который показывает Windows.
+4. Дождитесь копирования и полной проверки. После успешного завершения выключите компьютер, отключите исходный SSD и проверьте первую загрузку с копии.
+
+**Все прежние данные назначения будут перезаписаны.** Остановка или ошибка оставляет неполную копию. Версия 0.3.6 экспериментальная: полная запись и проверка тома Windows подтверждены на одном испытанном компьютере; совместимость и загрузка на всех конфигурациях не гарантируются. Сохраните независимую резервную копию важных файлов.
+
+## Интерфейс и инструкции
+
+Языки: **Русский · English · 简体中文**. Переключатель находится сверху, выбор сохраняется после закрытия программы.
+
+[Подробная инструкция на русском](docs/README.ru.md) · [English guide](docs/README.en.md) · [简体中文指南](docs/README.zh-CN.md)
+
+**English:** Sector is a Windows SSD cloning utility for moving a supported Windows installation, its installed applications and volume data to another SSD. It supports VSS live copying, supported simple dynamic Windows → basic GPT migration, and offline sector copying with full readback verification.
+
+**简体中文：** Sector 是 Windows SSD 克隆工具，用于将受支持的 Windows 系统、已安装的应用及卷数据迁移到另一块 SSD。支持 VSS 在线复制、受支持的动态 Windows 简单卷转基本 GPT，以及脱机逐扇区复制和完整回读校验。
+
+## Автор
+
+**by.mask21** · [Telegram-канал](https://t.me/+2A9pJfPMffU2Zjg6). Добровольная поддержка автора доступна в приложении.
+
+В репозитории опубликованы готовая программа, инструкции и лицензии сторонних компонентов. **Исходный код приложения закрыт.** [Сведения о сторонних компонентах](THIRD-PARTY-NOTICES.txt).

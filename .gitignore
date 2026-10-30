@@ -1,0 +1,14 @@
+# This public repository is for binaries and documentation only.
+source/
+src/
+work/
+vendor/
+build/
+tests/
+*.cs
+*.csproj
+*.sln
+*.pdb
+*.log
+boot-recovery-ticket.json
+Sector-Finish.exe

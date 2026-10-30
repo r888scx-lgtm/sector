@@ -1,0 +1,19 @@
+﻿Sector 0.3.6 includes the following unmodified third-party components:
+
+AlphaVSS.Common.dll 2.0.3 — AlphaVSS
+AlphaVSS.x64.dll 2.0.3 — AlphaVSS.Native.NetFx
+Copyright Peter Palotas / alphaleonis.
+Licensed under the Apache License, Version 2.0.
+The license is included as licenses/AlphaVSS-LICENSE.txt.
+
+Official repository: https://github.com/alphaleonis/AlphaVSS
+Upstream commit: 2800471697f06364d7a57ff891a96f343a044a21
+Official NuGet packages:
+https://api.nuget.org/v3-flatcontainer/alphavss/2.0.3/alphavss.2.0.3.nupkg
+https://api.nuget.org/v3-flatcontainer/alphavss.native.netfx/2.0.3/alphavss.native.netfx.2.0.3.nupkg
+
+Windows VSS, .NET Framework, Windows PowerShell and Microsoft Visual C++
+Runtime are operating-system/runtime prerequisites and are not redistributed
+in this archive. Microsoft trademarks belong to their respective owner.
+
+

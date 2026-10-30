@@ -1,0 +1,9 @@
+Sector 0.3.6
+Copyright (c) 2026 by.mask21. All rights reserved.
+
+The first-party application is distributed as compiled software.
+Its source code is private. No open-source license is granted for the
+first-party application by this repository or release.
+
+Third-party components remain subject to their respective licenses.
+See THIRD-PARTY-NOTICES.txt and licenses/AlphaVSS-LICENSE.txt.

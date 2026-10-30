@@ -1,54 +1,50 @@
-# Сектор — перенос Windows и клонирование SSD
+# Sector — Windows Migration and SSD Cloning
 
-**Меняете SSD и хотите перенести на него уже настроенную Windows вместе с программами и файлами?** Для этого создан «Сектор» — приложение для Windows от **by.mask21**.
+**Replacing your SSD and want to keep your Windows installation, apps, settings and files?** Sector is a Windows utility by **by.mask21** built for that task.
 
-Программа копирует поддерживаемую установку Windows на другой SSD, чтобы после переноса можно было проверить загрузку с нового накопителя без переустановки системы и приложений. Программы, настройки и файлы переносятся вместе с содержащим их томом; состав переносимых томов зависит от режима ниже.
+It copies a supported Windows installation to another SSD so you can test booting from the new drive without reinstalling the system and applications. Apps, settings and files move with the volumes that contain them; the volumes included depend on the copy mode below.
 
-**[Скачать Сектор 0.3.6 для Windows x64](https://github.com/r888scx-lgtm/sector/releases/download/v0.3.6/Sector-0.3.6-Windows-x64.zip)** · [Страница выпуска](https://github.com/r888scx-lgtm/sector/releases/tag/v0.3.6)
+**[Download Sector 0.3.6 for Windows x64](https://github.com/r888scx-lgtm/sector/releases/download/v0.3.6/Sector-0.3.6-Windows-x64.zip)** · [Release page](https://github.com/r888scx-lgtm/sector/releases/tag/v0.3.6)
 
-Распакуйте архив целиком и запустите **`Sector.exe` от имени администратора**. `Sector-Preview.exe` — отдельный предпросмотр на демонстрационных дисках, без записи на устройства.
+Extract the entire archive and run **`Sector.exe` as administrator**. Keep both DLLs beside the EXE. `Sector-Preview.exe` is a separate interface demo with simulated disks and physical-device writes disabled.
 
-## Что умеет программа
+## What Sector Does
 
-- **Переносить работающую Windows на другой SSD.** Для поддерживаемой GPT/UEFI-разметки используется VSS: Windows продолжает работать, а копия отражает состояние на момент снимка.
-- **Переносить данные томов целиком**, включая установленные на них приложения, настройки и пользовательские файлы.
-- **Клонировать два несистемных Offline-диска посекторно**, включая разделы, загрузочную область и пустые секторы.
-- **Переносить простую динамическую Windows из LDM в обычный GPT**, создавая на назначении новую разметку, EFI и привязку системного тома.
-- **Проверять всю записанную копию повторным чтением.** Для VSS используются SHA-256 блоков, сохранённые до записи; для обычного посекторного режима — побайтовое сравнение.
-- **Проверять VSS без записи на SSD** и снимать программный флаг «только чтение» у отдельного безопасно определённого назначения.
-- **Проверять направление переноса:** системный SSD нельзя выбрать назначением; перед перезаписью нужны серийный номер назначения и явное согласие.
+- **Copies running Windows to another SSD.** Supported GPT/UEFI installations use VSS: Windows keeps running, and the copy reflects the snapshot time.
+- **Copies entire supported volumes**, including their installed apps, settings and user files.
+- **Clones two offline non-system disks sector by sector**, including partitions, boot areas and unused sectors.
+- **Migrates a simple dynamic Windows volume from LDM to basic GPT**, creating a new destination layout, EFI boot files and system volume mapping.
+- **Verifies all copied data by reading it back.** VSS copies use SHA-256 block hashes saved before writing; standard sector copies use a byte-by-byte comparison.
+- **Tests VSS without writing to an SSD** and can remove the software read-only flag from a separately identified eligible destination.
+- **Checks the copy direction.** System disks cannot be selected as the destination. Overwriting requires the destination serial number and explicit consent.
 
-## Какие диски можно переносить
+## Supported Copy Modes
 
-| Режим | Что переносится | Основные условия |
+| Mode | What is copied | Main requirements |
 | --- | --- | --- |
-| Работающая Windows на обычном GPT | Поддерживаемые NTFS-тома, EFI и разметка | Windows и её EFI на одном SSD; назначение Offline |
-| Динамический GPT → обычный GPT | Один простой NTFS-том текущей Windows; новый EFI и MSR | EFI на том же SSD; без дополнительных пользовательских, составных и зеркальных томов |
-| Два несистемных Offline-диска | Полное содержимое диска посекторно | Оба диска Offline; обычная GPT или MBR |
+| Running Windows on basic GPT | Supported NTFS volumes, EFI and disk layout | Windows and its EFI on the same SSD; destination Offline |
+| Dynamic GPT to basic GPT | One simple NTFS volume containing the current Windows; new EFI and MSR | EFI on the same SSD; no additional user volumes, spanned or mirrored volumes |
+| Two offline non-system disks | Complete disk contents, sector by sector | Both disks Offline; standard GPT or MBR |
 
-Назначение должно быть физически не меньше источника, а логические секторы должны совпадать: 512 или 4096 байт. Разделы автоматически не расширяются. RAID, виртуальные диски, меньшее назначение, MBR для работающей Windows и BitLocker в live-режиме не поддерживаются.
+The destination's physical capacity must be at least as large as the source. Logical sector sizes must match: 512 or 4096 bytes. Partitions are not automatically expanded. RAID, virtual disks, smaller destinations, live MBR and BitLocker in live mode are unsupported.
 
-## Как пользоваться
+## How to Use It
 
-1. Подключите новый SSD и переведите **только назначение** в Offline через «Управление дисками». Работающую Windows оставьте Online.
-2. Выберите источник слева и назначение справа, затем нажмите **«Проверить план»**.
-3. Нажмите **«Клонировать SSD»**, проверьте направление и подтвердите перезапись номером, который показывает Windows.
-4. Дождитесь копирования и полной проверки. После успешного завершения выключите компьютер, отключите исходный SSD и проверьте первую загрузку с копии.
+1. Connect the new SSD and take **only the destination** Offline in Windows Disk Management. Keep the running Windows source Online.
+2. Select the source on the left and destination on the right, then click **Check plan**.
+3. Click **Clone SSD**, check the direction and confirm overwriting with the destination serial number reported by Windows.
+4. Wait for copying and full verification. After successful completion, shut down, disconnect the source SSD and test the first boot from the copy.
 
-**Все прежние данные назначения будут перезаписаны.** Остановка или ошибка оставляет неполную копию. Версия 0.3.6 экспериментальная: полная запись и проверка тома Windows подтверждены на одном испытанном компьютере; совместимость и загрузка на всех конфигурациях не гарантируются. Сохраните независимую резервную копию важных файлов.
+**All existing destination data will be overwritten.** Stopping or an error leaves an incomplete copy. Version 0.3.6 is experimental: a complete Windows volume copy and verification have been confirmed on one tested computer; compatibility and successful booting on every configuration are not guaranteed. Keep an independent backup of important files.
 
-## Интерфейс и инструкции
+## Interface and Guides
 
-Языки: **Русский · English · 简体中文**. Переключатель находится сверху, выбор сохраняется после закрытия программы.
+Languages: **Russian, English and Simplified Chinese**. The language selector is at the top of the app, and your choice is saved after closing it.
 
-[Подробная инструкция на русском](docs/README.ru.md) · [English guide](docs/README.en.md) · [简体中文指南](docs/README.zh-CN.md)
+[English guide](docs/README.en.md) · [Russian guide](docs/README.ru.md) · [Simplified Chinese guide](docs/README.zh-CN.md)
 
-**English:** Sector is a Windows SSD cloning utility for moving a supported Windows installation, its installed applications and volume data to another SSD. It supports VSS live copying, supported simple dynamic Windows → basic GPT migration, and offline sector copying with full readback verification.
+## Author
 
-**简体中文：** Sector 是 Windows SSD 克隆工具，用于将受支持的 Windows 系统、已安装的应用及卷数据迁移到另一块 SSD。支持 VSS 在线复制、受支持的动态 Windows 简单卷转基本 GPT，以及脱机逐扇区复制和完整回读校验。
+**by.mask21** · [Telegram channel](https://t.me/+2A9pJfPMffU2Zjg6). Voluntary author support is available inside the app.
 
-## Автор
-
-**by.mask21** · [Telegram-канал](https://t.me/+2A9pJfPMffU2Zjg6). Добровольная поддержка автора доступна в приложении.
-
-В репозитории опубликованы готовая программа, инструкции и лицензии сторонних компонентов. **Исходный код приложения закрыт.** [Сведения о сторонних компонентах](THIRD-PARTY-NOTICES.txt).
+This repository distributes compiled applications, documentation and third-party license notices. **First-party source code remains private.** See [third-party notices](THIRD-PARTY-NOTICES.txt).

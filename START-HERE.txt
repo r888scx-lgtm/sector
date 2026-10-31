@@ -1,0 +1,23 @@
+Сектор / Sector 0.3.6 — Windows x64
+Автор / Author: by.mask21
+
+РУССКИЙ
+1. Нажмите Code → Download ZIP на странице репозитория или скачайте ZIP со страницы Releases.
+2. Полностью распакуйте архив. Не запускайте EXE прямо из окна архиватора.
+3. Откройте распакованную папку и запустите Sector.exe от имени администратора.
+4. AlphaVSS.Common.dll и AlphaVSS.x64.dll должны оставаться рядом с Sector.exe.
+Sector-Preview.exe — демонстрация интерфейса с вымышленными дисками.
+Версия экспериментальная. Требования и ограничения: docs/README.ru.md.
+Клонирование перезаписывает выбранный диск назначения после подтверждения.
+
+ENGLISH
+1. Choose Code → Download ZIP or download the release ZIP.
+2. Extract the entire archive before running the application.
+3. Open the extracted folder and run Sector.exe as administrator.
+4. Keep AlphaVSS.Common.dll and AlphaVSS.x64.dll beside Sector.exe.
+Sector-Preview.exe demonstrates the interface with simulated disks.
+This version is experimental. Requirements and limitations: docs/README.en.md.
+Cloning overwrites the selected destination after confirmation.
+
+Release: https://github.com/r888scx-lgtm/sector/releases/tag/v0.3.6
+First-party source code remains private.

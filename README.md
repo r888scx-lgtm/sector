@@ -6,7 +6,9 @@ It copies a supported Windows installation to another SSD so you can test bootin
 
 **[Download Sector 0.3.6 for Windows x64](https://github.com/r888scx-lgtm/sector/releases/download/v0.3.6/Sector-0.3.6-Windows-x64.zip)** · [Release page](https://github.com/r888scx-lgtm/sector/releases/tag/v0.3.6)
 
-Extract the entire archive and run **`Sector.exe` as administrator**. Keep both DLLs beside the EXE. `Sector-Preview.exe` is a separate interface demo with simulated disks and physical-device writes disabled.
+**You can also use the green `Code` button → `Download ZIP` on this page.** The repository archive includes the same ready-to-run 0.3.6 EXE and DLL files. Extract the whole archive, open the extracted folder and run **`Sector.exe` as administrator**. Keep both DLLs beside the EXE. `Sector-Preview.exe` is a separate interface demo with simulated disks and physical-device writes disabled.
+
+**По-русски:** нажмите **Code → Download ZIP**, распакуйте весь архив и запустите **`Sector.exe` от имени администратора**. Оставьте обе DLL рядом с EXE. Через ссылку Download выше также доступен архив релиза. Контрольные суммы EXE и DLL указаны в `SHA256SUMS.txt`.
 
 ## What Sector Does
 
